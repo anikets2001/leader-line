@@ -1,0 +1,24 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  height: 100vh;
+}
+
+.stage {
+  position: relative;
+  margin-bottom: 1em;
+  width: 700px;
+}
+
+.anchor,
+.anchor40,
+.anchor60,
+.anchor80-line,
+.anchor100-line,
+.anchor-text {
+  position: absolute;
+  background-color: #4ddfdf;
+  padding: 5px 0;
+  font-size: 24px;
+  text-align: center;
+}
