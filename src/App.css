@@ -1,24 +1,83 @@
-.App {
-  font-family: sans-serif;
-  text-align: center;
-  height: 100vh;
+.grandparent {
+  padding-bottom: 50px;
 }
 
-.stage {
-  position: relative;
-  margin-bottom: 1em;
-  width: 700px;
+.container {
+  margin: auto;
+  width: 50%;
+  height: 100%;
 }
 
-.anchor,
-.anchor40,
-.anchor60,
-.anchor80-line,
-.anchor100-line,
-.anchor-text {
-  position: absolute;
-  background-color: #4ddfdf;
-  padding: 5px 0;
-  font-size: 24px;
-  text-align: center;
+.parent {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 50px;
+}
+
+.left {
+  height: 200px;
+  width: 200px;
+  border: 2px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.right {
+  height: 200px;
+  width: 200px;
+  border: 2px solid red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50%;
+}
+
+.more-examples {
+  margin-top: 24px;
+}
+
+.one-to-many {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 500px;
+}
+
+.source-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  height: 100%;
+}
+
+.source {
+  height: 200px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid green;
+}
+
+.target-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  height: 100%;
+}
+
+.target1,
+.target2,
+.target3 {
+  height: 200px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid blue;
 }

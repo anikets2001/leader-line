@@ -1,30 +1,33 @@
 import "./App.css";
 import LeaderLine from "react-leader-line";
-import { useEffect, useRef, forwardRef } from "react";
-
-const showEffect = {
-  default: "fade",
-  none: "none",
-  draw: "draw",
-};
-
-const RectComp = forwardRef(({ children, ...props }, ref) => (
-  <div ref={ref} {...props}>
-    {children}
-  </div>
-));
+import { useEffect, useRef } from "react";
 
 export default function App() {
-  const startRef = useRef();
-  const endRef = useRef();
+  const oneRef = useRef();
+  const twoRef = useRef();
 
-  const startRef1 = useRef();
-  const endRef1 = useRef();
+  const threeRef = useRef();
+  const fourRef = useRef();
 
-  const hoverStartRef = useRef();
-  const hoverEndRef1 = useRef();
-  const hoverEndRef2 = useRef();
-  const hoverEndRef3 = useRef();
+  const fiveRef = useRef();
+  const sixRef = useRef();
+
+  const sevenRef = useRef();
+  const eightRef = useRef();
+
+  const nineRef = useRef();
+  const tenRef = useRef();
+
+  const sourceRef = useRef();
+  const targetRef1 = useRef();
+  const targetRef2 = useRef();
+  const targetRef3 = useRef();
+
+  const hoverSource = useRef();
+  const hoverTarget = useRef();
+
+  const shapeSource = useRef();
+  const shapeTarget = useRef();
 
   useEffect(() => {
     const lineOptions = {
@@ -32,114 +35,222 @@ export default function App() {
       endPlug: "behind",
     };
 
-    new LeaderLine(startRef.current, endRef.current, lineOptions);
+    // from box 1 to 2  (Outline, Color)
+    new LeaderLine(oneRef.current, twoRef.current, {
+      size: 8,
+      startPlug: "square",
+      color: "green",
+      outline: true,
+    });
 
-    new LeaderLine(startRef1.current, LeaderLine.areaAnchor(endRef1.current), {
+    // from box 2 to 3 (Gradient, shadow)
+    new LeaderLine(twoRef.current, threeRef.current, {
+      size: 8,
+      startPlugColor: "#1a6be0",
+      endPlugColor: "#1efdaa",
+      gradient: true,
+      dropShadow: true,
+    });
+
+    // from box 3 to 4 (start and end plug symbol)
+    new LeaderLine(threeRef.current, fourRef.current, {
+      size: 8,
+      startPlug: "square",
+      endPlug: "hand",
+    });
+
+    // from box 4 to 5 (Labels)
+    new LeaderLine(fourRef.current, fiveRef.current, {
+      size: 8,
+      startLabel: "Start",
+      middleLabel: "middle",
+      endLabel: "end",
+    });
+
+    // from box 5 to 6 (line-color, line-size,  plugColor)
+    new LeaderLine(fiveRef.current, sixRef.current, {
+      color: "rgba(30, 130, 250, 0.5)",
+      endPlugColor: "rgba(241, 76, 129, 0.5)", // translucent
+      startPlugSize: 1,
+      endPlugSize: 2,
+    });
+
+    // from box 6 to 7 (outline-size)
+    new LeaderLine(sixRef.current, sevenRef.current, {
+      size: 12,
+      outline: true,
+      outlineSize: 0.2,
+      outlineColor: "rgb(30, 130, 250)",
+    });
+
+    // from box 7 to 8 (dash, with gap )
+    new LeaderLine(sevenRef.current, eightRef.current, {
+      dash: { len: 4, gap: 24 },
+    });
+
+    // from box 8 to 9 (dash with animation)
+    new LeaderLine(eightRef.current, nineRef.current, {
       dash: { animation: true },
     });
 
-    const anchorOptions = {
-      showEffectName: showEffect.default,
-    };
+    // from box 9 to 10 (areaAnchor end box inside border)
+    new LeaderLine(nineRef.current, LeaderLine.areaAnchor(tenRef.current), {
+      dash: { animation: true },
+    });
 
+    // one to many
+    new LeaderLine(sourceRef.current, targetRef1.current, {
+      size: 6,
+    });
+
+    new LeaderLine(sourceRef.current, targetRef2.current, lineOptions, {
+      size: 6,
+    });
+
+    new LeaderLine(sourceRef.current, targetRef3.current, lineOptions, {
+      size: 6,
+    });
+
+    // hover effect
     new LeaderLine(
-      LeaderLine.mouseHoverAnchor(hoverStartRef.current),
-      hoverEndRef1.current,
-      lineOptions
+      LeaderLine.mouseHoverAnchor(hoverSource.current, "draw", {
+        animOptions: {
+          duration: 2000,
+        },
+      }),
+      hoverTarget.current
     );
 
+    // shape and size
     new LeaderLine(
-      LeaderLine.mouseHoverAnchor(hoverStartRef.current, {
-        ...anchorOptions,
-        showEffectName: showEffect.none,
-      }),
-      hoverEndRef2.current
-    );
-    
-    new LeaderLine(
-      LeaderLine.mouseHoverAnchor(hoverStartRef.current, {
-        ...anchorOptions,
-        showEffectName: showEffect.draw,
-      }),
-      hoverEndRef3.current
+      shapeSource.current,
+      LeaderLine.areaAnchor(shapeTarget.current, {
+        shape: "polygon",
+        points: [
+          [10, 15],
+          [63, 70],
+          [10, 80],
+        ],
+        fillColor: "#f8cd1e",
+        // size 0 will remove border from the shape (polygon)
+        size: 0,
+      })
     );
   }, []);
 
   return (
-    <div className="App">
-      <div className="stage" style={{ width: "900px", height: "100px" }}>
-        <RectComp
-          ref={startRef}
-          className="anchor80-line"
-          style={{ left: 0, top: 0 }}
-        >
-          start
-        </RectComp>
-        <RectComp
-          ref={endRef}
-          className="anchor80-line"
-          style={{ right: 0, bottom: 0 }}
-        >
-          end
-        </RectComp>
-      </div>
-      <div className="stage" style={{ width: "400px", height: "100px" }}>
-        <RectComp
-          ref={startRef1}
-          className="anchor80-line"
-          style={{ left: 0, top: 0 }}
-        >
-          start
-        </RectComp>
-        <RectComp
-          ref={endRef1}
-          className="anchor80-line"
-          style={{ right: 0, bottom: 0 }}
-        >
-          end
-        </RectComp>
-      </div>
-      <div className="stage" style={{ width: "400px", height: "100px" }}>
-        <RectComp
-          ref={hoverStartRef}
-          className="anchor-text"
-          style={{
-            left: 0,
-            top: 0,
-            backgroundImage:
-              'url("data:image/svg+xml;charset=utf-8;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjI0IiBoZWlnaHQ9IjI0Ij48cG9seWdvbiBwb2ludHM9IjI0LDAgMCw4IDgsMTEgMCwxOSA1LDI0IDEzLDE2IDE2LDI0IiBmaWxsPSJjb3JhbCIvPjwvc3ZnPg==")',
-            backgroundRepeat: "no-repeat",
-            backgroundColor: "rgb(248, 248, 129)",
-            cursor: "default",
-            paddingRight: "15px",
-            paddingLeft: "2px",
-            backgroundPosition: "right 2px top 2px",
-          }}
-        >
-          Move mouse here
-        </RectComp>
-        <div
-          ref={hoverEndRef1}
-          className="anchor40"
-          style={{ right: 0, bottom: 0 }}
-        >
-          end1
+    <>
+      {/* Drawing lines between multiple div */}
+      <div className="grandparent">
+        <div className="container">
+          <div className="parent">
+            <div className="left" ref={oneRef}>
+              1
+            </div>
+            <div className="right" ref={twoRef}>
+              2
+            </div>
+          </div>
+          <div className="parent">
+            <div className="left" ref={threeRef}>
+              3
+            </div>
+            <div className="right" ref={fourRef}>
+              4
+            </div>
+          </div>
+          <div className="parent">
+            <div className="left" ref={fiveRef}>
+              5
+            </div>
+            <div className="right" ref={sixRef}>
+              6
+            </div>
+          </div>
+          <div className="parent">
+            <div className="left" ref={sevenRef}>
+              7
+            </div>
+            <div className="right" ref={eightRef}>
+              8
+            </div>
+          </div>
+          <div className="parent">
+            <div className="left" ref={nineRef}>
+              9
+            </div>
+            <div className="right" ref={tenRef}>
+              10
+            </div>
+          </div>
+
+          <div className="more-examples">
+            <p>
+              --------------------------------------------------------------------------------One
+              to Many
+              -------------------------------------------------------------------------------
+            </p>
+          </div>
+          <div className="one-to-many">
+            <div className="source-container">
+              <div className="source" ref={sourceRef}>
+                source
+              </div>
+            </div>
+            <div className="target-container">
+              <div className="target1" ref={targetRef1}>
+                target1
+              </div>
+              <div className="target2" ref={targetRef2}>
+                target2
+              </div>
+              <div className="target3" ref={targetRef3}>
+                target3
+              </div>
+            </div>
+          </div>
+
+          <div className="more-examples">
+            <p>
+              --------------------------------------------------------------------------------Hover
+              Effect
+              -------------------------------------------------------------------------------
+            </p>
+          </div>
+          <div className="one-to-many">
+            <div className="source-container">
+              <div className="source" ref={hoverSource}>
+                hover me
+              </div>
+            </div>
+            <div className="target-container" style={{ marginTop: "50%" }}>
+              <div className="target1" ref={hoverTarget}>
+                Here it is!
+              </div>
+            </div>
+          </div>
+
+          <div className="more-examples">
+            <p>
+              --------------------------------------------------------------------------------Shape
+              and Size
+              -------------------------------------------------------------------------------
+            </p>
+          </div>
+          <div className="one-to-many">
+            <div className="source-container">
+              <div className="source" ref={shapeSource}>
+                Source
+              </div>
+            </div>
+            <div className="target-container" style={{ marginTop: "50%" }}>
+              <div className="" ref={shapeTarget}>
+                Target
+              </div>
+            </div>
+          </div>
         </div>
-        <div
-          ref={hoverEndRef2}
-          className="anchor40"
-          style={{ right: 0, bottom: 0, top: 150 }}
-        >
-          end2
-        </div>
-        <RectComp
-          ref={hoverEndRef3}
-          className="anchor40"
-          style={{ right: 0, bottom: 0, top: 200 }}
-        >
-          end3
-        </RectComp>
       </div>
-    </div>
+    </>
   );
 }
